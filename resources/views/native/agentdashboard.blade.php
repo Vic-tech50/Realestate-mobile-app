@@ -222,13 +222,15 @@
                 <row class="w-full items-center justify-between">
 
                     
-                     <pressable @press="viewProperty({{$property->id }})"
+                     <pressable @press="confirmDelete({{$property->id }})"
                         class="rounded-xl bg-red-500 px-4 py-2"
                     >
                         <text class="text-xs font-bold text-white">
                             Delete Property
                         </text>
                     </pressable>
+
+    
 
                     
 
@@ -240,7 +242,7 @@
                             Edit Property
                         </text>
                     </pressable>
-                    
+
 
                 </row>
 
@@ -254,6 +256,8 @@
             </native:scroll-view>
 
         @endif
+
+  
 
 
         {{-- Quick Actions --}}

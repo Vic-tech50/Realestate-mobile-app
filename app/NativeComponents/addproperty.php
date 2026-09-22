@@ -10,6 +10,7 @@ use Native\Mobile\Attributes\OnNative;
 use Native\Mobile\Edge\NativeComponent;
 use Native\Mobile\Events\Gallery\MediaSelected;
 use Native\Mobile\Facades\Camera;
+use Native\Mobile\Facades\Dialog;
 
 class addproperty extends NativeComponent
 {
@@ -85,7 +86,7 @@ class addproperty extends NativeComponent
                 'bedrooms' => ['nullable', 'integer', 'min:0'],
                 'bathrooms' => ['nullable', 'integer', 'min:0'],
                 'parking' => ['nullable', 'integer', 'min:0'],
-                'size' => ['nullable', 'numeric', 'max:100'],
+                'size' => ['nullable', 'numeric'],
                 'price' => ['required', 'numeric', 'min:0'],
                 'price_period' => ['required', 'string'],
                 'description' => ['required', 'string', 'min:20'],
@@ -125,7 +126,7 @@ class addproperty extends NativeComponent
             // }
 
             Property::create($payload);
-
+            Dialog::toast('Property added successfully.');
             $this->navigate('/agentdashboard');
         } finally {
             $this->isSaving = false;

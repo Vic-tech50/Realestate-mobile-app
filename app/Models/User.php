@@ -26,6 +26,13 @@ class User extends Authenticatable
         'phone',
         'password',
         'role',
+
+        'verification_document_type',
+        'verification_document_path',
+        'verification_status',
+        'verification_rejection_reason',
+        'verification_submitted_at',
+        'verification_verified_at',
     ];
 
     /**

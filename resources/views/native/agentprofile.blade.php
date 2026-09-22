@@ -102,7 +102,9 @@
 
             <row class="w-full items-center justify-between py-2 border-b border-zinc-200">
                 <text class="text-sm text-zinc-500">Verification</text>
-                <text class="text-sm font-bold text-emerald-600">Verified</text>
+               <pressable @navigate.slideFromBottom='/verifyagent'> 
+                <text class="text-sm font-bold text-red-600 underline">Not Verified</text>
+             </pressable>
             </row>
 
             <row class="w-full items-center justify-between py-2">

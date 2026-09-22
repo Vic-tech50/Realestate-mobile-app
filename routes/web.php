@@ -12,6 +12,8 @@ use App\NativeComponents\Layouts\AppLayout;
 use App\NativeComponents\Login;
 use App\NativeComponents\Property;
 use App\NativeComponents\service;
+use App\NativeComponents\uploaddocument;
+use App\NativeComponents\verifyagent;
 use App\NativeComponents\viewproperty;
 use Illuminate\Support\Facades\Route;
 
@@ -23,12 +25,12 @@ Route::native('/agent', Agent::class);
 Route::native('/login', Login::class);
 Route::native('/viewproperty/{id}', viewproperty::class);
 
-
-
 Route::nativeGroup(AppLayout::class, function () {
     Route::native('/agentdashboard', agentdashboard::class);
     Route::native('/addproperty', addproperty::class);
     Route::native('/profile', agentprofile::class);
     Route::native('/editprofile', editprofile::class);
+    Route::native('/verifyagent', verifyagent::class);
+    Route::native('/upload', uploaddocument::class);
     Route::native('/editproperty/{id}', editproperty::class);
 });

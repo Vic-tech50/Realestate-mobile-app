@@ -38,19 +38,7 @@
             {{-- Title --}}
             <column class="w-full gap-2">
 
-                @php $title = '';
-                    $property_type = '';
-                    $listing_type;
-                    $address = '';
-                    $city = '';
-                    $state = '';
-                    $bedrooms = '';
-                    $bathrooms = '';
-                    $parking = '';
-                    $size = '';
-                    $price = '';
-                    $price_period = '';
-                $description = '';  @endphp
+              
 
                 <native:outlined-text-input label="Property Title" placeholder="e.g. Luxury 4 Bedroom Duplex"
                     native:model="title" />
@@ -332,19 +320,21 @@
         {{-- SUBMIT --}}
         {{-- ============================= --}}
 
-        <column>
+        {{-- <column>
             @if ($errorMessage)
                 <text class="text-sm text-red-600 text-center">
                     {{ $errorMessage }}
                 </text>
             @endif
-        </column>
+            :loading="$isSaving" :disabled="$isSaving"
+            {{ $isSaving ? 'Publishing Property...' : 'Publish Property' }}
+        </column> --}}
 
         <column class="w-full">
 
-            <native:button @press="save" :loading="$isSaving" :disabled="$isSaving"
-                class="w-full rounded-xl h-15 bg-black py-4 items-center justify-center">
-                {{ $isSaving ? 'Publishing Property...' : 'Publish Property' }}</native:button>
+            <native:button @press="save" class="w-full rounded-xl h-15 bg-black py-4 items-center justify-center">
+                Edit Property
+            </native:button>
 
         </column>
 
