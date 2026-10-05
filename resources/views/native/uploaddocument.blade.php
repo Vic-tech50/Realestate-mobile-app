@@ -230,7 +230,7 @@
                     {{-- Camera --}}
                     <pressable
                         @press="takePhoto"
-                        class="mb-3 rounded-2xl bg-blue-600 p-5"
+                        class="mb-3 rounded-2xl w-full bg-blue-600 p-5"
                     >
 
                         <row class="items-center">
@@ -263,7 +263,7 @@
                     {{-- Gallery --}}
                     <pressable
                         @press="chooseFromGallery"
-                        class="rounded-2xl border border-zinc-200 bg-white p-5"
+                        class="rounded-2xl border w-full border-zinc-200 bg-white p-5"
                     >
 
                         <row class="items-center">

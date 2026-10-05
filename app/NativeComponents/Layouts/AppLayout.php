@@ -47,9 +47,11 @@ class AppLayout extends NativeLayout
         //     : '/agentdashboard';
 
         return TabBar::make()
-            ->dark(true)
+            ->dark(false)
             ->labelVisibility('labeled')
-            ->activeColor('#111827')
+            ->textColor('#ffffff')
+            ->activeColor('#006600')
+            ->backgroundColor('#001a00')
             ->add(Tab::link('Home', '/agentdashboard', icon: 'dashboard'))
             ->add(Tab::link('Property', '/addproperty', icon: 'add'))
             ->add(Tab::link('Profile', '/profile', icon: 'user'))

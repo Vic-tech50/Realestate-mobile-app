@@ -6,6 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Property extends Model
 {
+    protected function casts(): array
+    {
+        return [
+            'images' => 'array',
+            'is_featured' => 'boolean',
+        ];
+    }
+
     protected $fillable = [
         'agent_id',
         'title',

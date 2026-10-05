@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\Property;
+use App\NativeComponents\addproperty;
+use App\NativeComponents\editprofile;
 
 it('accepts both a thumbnail and multiple property images for mass assignment', function () {
     $property = new Property([
@@ -33,8 +35,33 @@ it('accepts both a thumbnail and multiple property images for mass assignment', 
         ]);
 });
 
+it('stores selected gallery files as property images and uses the first as thumbnail', function () {
+    $component = new addproperty;
+
+    $component->handleMediaSelected(true, [
+        '/storage/property/front.jpg',
+        ['path' => '/storage/property/back.jpg'],
+    ]);
+
+    expect($component->images)->toBe([
+        '/storage/property/front.jpg',
+        '/storage/property/back.jpg',
+    ])->and($component->thumbnail)->toBe('/storage/property/front.jpg');
+});
+
+it('keeps the selected avatar reference for preview before saving', function () {
+    $component = new editprofile;
+
+    $component->handleMediaSelected(true, [
+        ['uri' => 'content://media/agent-avatar.jpg'],
+    ]);
+
+    expect($component->avatarPreview)->toBe('content://media/agent-avatar.jpg')
+        ->and($component->avatarFilePath)->toBe('');
+});
+
 it('navigates to the selected property detail route using the property id', function () {
-    $component = new class extends \App\NativeComponents\property
+    $component = new class extends App\NativeComponents\property
     {
         public string $lastNavigationUri = '';
 

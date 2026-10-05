@@ -3,10 +3,11 @@
 namespace App\NativeComponents;
 
 use App\Models\Property;
+use App\Models\User;
 use App\Services\AuthStorage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
-use Native\Mobile\Attributes\OnNative;
+use Native\Mobile\Attributes\On;
 use Native\Mobile\Edge\NativeComponent;
 use Native\Mobile\Events\Gallery\MediaSelected;
 use Native\Mobile\Facades\Camera;
@@ -117,13 +118,10 @@ class addproperty extends NativeComponent
                 'status' => 'pending',
             ];
 
-            // if ($this->thumbnail) {
-            //     $payload['thumbnail'] = $this->thumbnail;
-            // }
-
-            // if (! empty($this->images)) {
-            //     $payload['images'] = json_encode($this->images);
-            // }
+            if (! empty($this->images)) {
+                $payload['thumbnail'] = $this->images[0];
+                $payload['images'] = $this->images;
+            }
 
             Property::create($payload);
             Dialog::toast('Property added successfully.');
@@ -133,39 +131,47 @@ class addproperty extends NativeComponent
         }
     }
 
-    // public function selectThumbnail(): void
-    // {
-    //     Camera::pickImages('thumbnail', false);
-    // }
+    public function selectImages(): void
+    {
+        Camera::pickImages('images', true);
+    }
 
-    // public function selectImages(): void
-    // {
-    //     Camera::pickImages('images', true);
-    // }
+    #[On(MediaSelected::class)]
+    public function handleMediaSelected(
+        bool $success,
+        array $files = [],
+        int $count = 0
+    ): void {
+        if (! $success || empty($files)) {
+            return;
+        }
 
-    // #[OnNative(MediaSelected::class)]
-    // public function handleMediaSelected(string $field, bool $success, array $files = [], int $count = 0): void
-    // {
-    //     if (! $success || empty($files)) {
-    //         return;
-    //     }
+        $this->images = array_values(array_filter(array_map(
+            fn (mixed $file): ?string => is_array($file)
+                ? ($file['path'] ?? $file['uri'] ?? null)
+                : (is_string($file) ? $file : null),
+            $files
+        )));
 
-    //     if ($field === 'thumbnail') {
-    //         $this->thumbnail = $files[0] ?? null;
-
-    //         return;
-    //     }
-
-    //     if ($field === 'images') {
-    //         $this->images = $files;
-    //     }
-    // }
+        $this->thumbnail = $this->images[0] ?? null;
+    }
 
     public function render(): View
     {
+        $authUser = AuthStorage::user() ?? [];
+
+        $user = User::find($authUser['id'] ?? 0);
+
+        if (! $user || $user->verification_status !== 'verified') {
+            // $this->navigate('/verificationstatus');
+
+            return view('native.verificationstatus', [
+                'user' => $user,
+            ]);
+        }
+
         return view('native.addproperty', [
-            // 'thumbnail' => $this->thumbnail,
-            // 'images' => $this->images,
+            'images' => $this->images,
             'errorMessage' => $this->errorMessage,
             'isSaving' => $this->isSaving,
         ]);

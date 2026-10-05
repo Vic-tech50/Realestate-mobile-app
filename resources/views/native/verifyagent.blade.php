@@ -87,7 +87,7 @@
 
 
             {{-- Name --}}
-            <column class="mb-4 rounded-xl bg-zinc-50 p-4">
+            <column class="mb-4 rounded-xl bg-zinc-50 w-full p-4">
 
                 <text class="text-xs text-zinc-500">
                     Full Name
@@ -101,7 +101,7 @@
 
 
             {{-- Email --}}
-            <column class="mb-4 rounded-xl bg-zinc-50 p-4">
+            <column class="mb-4 rounded-xl bg-zinc-50 w-full p-4">
 
                 <text class="text-xs text-zinc-500">
                     Email Address
@@ -115,7 +115,7 @@
 
 
             {{-- Phone --}}
-            <column class="mb-4 rounded-xl bg-zinc-50 p-4">
+            <column class="mb-4 rounded-xl bg-zinc-50 w-full p-4">
 
                 <text class="text-xs text-zinc-500">
                     Phone Number
@@ -131,7 +131,7 @@
 
 
         {{-- What we checked --}}
-        <column class="mt-2 rounded-2xl border border-zinc-200 p-5">
+        <column class="mt-2 rounded-2xl border w-full border-zinc-200 p-5">
 
             <text class="mb-4 text-base font-bold text-zinc-900">
                 Verification Checklist
@@ -187,13 +187,19 @@
                 <native:button
                     label="Continue to Add Property"
                     @press="continueToAddProperty"
+                    variant="ghost"
+                    class="w-full h-[50px] rounded-0 mb-4"
                 />
 
             {{-- @else --}}
 
                 <native:button
-                    label="Complete My Profile"
+                    label="Continue"
                     @press="upload"
+                    size="lg"
+                    variant="primary"
+                    icon-trailing="forward"
+                    class="w-full h-[50px] rounded-0 mb-4 bg-green-950"
                 />
 
             {{-- @endif --}}

@@ -10,24 +10,32 @@
         "mobile"
     ],
     "license": "MIT",
-    "repositories": [
-        {
+    "repositories": {
+        "nativephp-plugins": {
+            "type": "composer",
+            "url": "https://plugins.nativephp.com"
+        },
+        "0": {
             "name": "nativephp-plugins",
             "type": "composer",
             "url": "https://plugins.nativephp.com"
         }
-    ],
+    },
     "require": {
         "php": "^8.4",
+        "inertiajs/inertia-laravel": "*",
         "laravel/boost": "^2.0",
         "laravel/framework": "^13.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^3.0",
+        "livewire/livewire": "*",
         "nativephp/mobile": "^4.0",
         "nativephp/mobile-browser": "^1.0",
         "nativephp/mobile-camera": "^1.0",
         "nativephp/mobile-secure-storage": "*",
-        "nativephp/mobile-ui": "^0.3"
+        "nativephp/mobile-ui": "^0.3",
+        "openai-php/client": "*",
+        "realrashid/sweet-alert": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
