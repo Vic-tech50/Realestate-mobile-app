@@ -24,6 +24,7 @@ use App\Http\Controllers\AgentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PropertiesController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\SettingsController;
 
 
 Route::get('/admin/login', function () {
@@ -40,6 +41,7 @@ Route::post('/authLogin', [AuthController::class, 'login']);
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('admin.home');
     Route::get('/admin/profile', [ProfileController::class, 'index'])->name('admin.profile');
+    Route::get('/admin/settings', [SettingsController::class, 'index'])->name('admin.settings');
     Route::resources([
         'agents' => AgentController::class,
         'properties' => PropertiesController::class,
@@ -47,6 +49,7 @@ Route::middleware(['auth'])->group(function () {
     ]);
     Route::post('update_profile', [ProfileController::class, 'update_profile'])->name('update.profile');
     Route::post('update_password', [ProfileController::class, 'update_password'])->name('update.password');
+    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
 
     // Route::post('/reinvest', [PlanController::class, 'reinvest'])->name('plan.reinvest');

@@ -10,6 +10,7 @@ class Property extends Model
     {
         return [
             'images' => 'array',
+            'amenities' => 'array',
             'is_featured' => 'boolean',
         ];
     }
@@ -35,6 +36,11 @@ class Property extends Model
         'size',
         'is_featured',
         'video',
+        'country',
+        'landmark',
+        'toilets',
+        'size_unit',
+        'amenities',
     ];
 
     public function user()

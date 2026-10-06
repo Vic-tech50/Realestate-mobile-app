@@ -32,4 +32,12 @@ class AuthController extends Controller
                 ->with('message', 'Email-Address and Password are incorrect.');
         }
     }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        // $request->session()->invalidate();
+        // $request->session()->regenerateToken();
+        return redirect()->route('login');
+    }
 }

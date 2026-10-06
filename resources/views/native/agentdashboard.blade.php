@@ -227,7 +227,7 @@
                                         </text>
 
                                         <text class="text-xs text-zinc-600 dark:text-zinc-400">
-                                            {{ $property->size }} m²
+                                            {{ $property->size }} {{ $property->size_unit }}
                                         </text>
 
                                     </row>

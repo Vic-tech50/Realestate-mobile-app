@@ -554,7 +554,7 @@
 
 
                         <form method="POST"
-                            {{-- action="{{ route('logout') }}"> --}}
+                            action="{{ route('logout') }}">
 
                             @csrf
 
@@ -887,7 +887,7 @@
 
                     <li>
 
-                        <a href="#"
+                        <a href="{{ route('admin.settings') }}"
                             class="dropdown-toggle no-arrow">
 
                             <span class="micon dw dw-settings"></span>
@@ -938,7 +938,7 @@
                     <li>
 
                         <form method="POST"
-                            {{-- action="{{ route('logout') }}"> --}}
+                            action="{{ route('logout') }}">
 
                             @csrf
 

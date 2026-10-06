@@ -554,7 +554,7 @@
                     </div>
 
                     <div class="stat-number">
-                        {{ $properties->where('status', 'active')->count() }}
+                        {{ $properties->where('status', 'available')->count() }}
                     </div>
 
                     <div class="stat-label">
@@ -787,7 +787,7 @@
                                 {{-- Status --}}
                                 <td>
 
-                                    @if($property->status === 'active')
+                                    @if($property->status === 'available' || $property->status === 'active')
 
                                         <span class="status-badge status-approved">
                                             Approved
@@ -854,7 +854,7 @@
 
                                             <a
                                                 class="dropdown-item"
-                                                href="#"
+                                                href="{{ route('properties.show', $property) }}"
                                             >
                                                 <i class="dw dw-eye"></i>
                                                 View Property
@@ -863,7 +863,7 @@
 
                                             <a
                                                 class="dropdown-item"
-                                                href="#"
+                                                href="{{ route('properties.edit', $property) }}"
                                             >
                                                 <i class="dw dw-edit2"></i>
                                                 Edit Property
@@ -891,15 +891,14 @@
 
                         @empty
 
-                            <tr>
-
-                                <td
-                                    colspan="8"
-                                    class="empty-state"
-                                >
-
-                                    <div class="empty-icon">
-
+                                            <form method="POST" action="{{ route('properties.destroy', $property) }}">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="dropdown-item delete-item">
+                                                    <i class="dw dw-delete-3"></i>
+                                                    Delete Property
+                                                </button>
+                                            </form>
                                         <i class="fa fa-building"></i>
 
                                     </div>

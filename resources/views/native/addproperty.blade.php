@@ -35,23 +35,7 @@
 
 
         {{-- Title --}}
-        <column class="w-full gap-2">
-
-            @php
-                $title = '';
-                $property_type = '';
-                $listing_type;
-                $address = '';
-                $city = '';
-                $state = '';
-                $bedrooms = '';
-                $bathrooms = '';
-                $parking = '';
-                $size = '';
-                $price = '';
-                $price_period = '';
-                $description = '';
-            @endphp
+        <column class="w-full">
 
             <native:outlined-text-input
                 label="Property Title"
@@ -121,6 +105,26 @@
 
         </column>
 
+        <column class="w-full gap-2">
+
+            <native:outlined-text-input
+                label="Country"
+                placeholder="e.g. Nigeria"
+                native:model="country"
+            />
+
+        </column>
+
+        <column class="w-full gap-2">
+
+            <native:outlined-text-input
+                label="Nearby Landmark"
+                placeholder="e.g. Near the stadium"
+                native:model="landmark"
+            />
+
+        </column>
+
 
         {{-- City --}}
         <column class="w-full gap-2">
@@ -133,7 +137,6 @@
 
         </column>
 
-
         {{-- State --}}
         <column class="w-full gap-2">
 
@@ -141,6 +144,18 @@
                 label="State"
                 placeholder="e.g. Lagos State"
                 native:model="state"
+            />
+
+        </column>
+
+        {{-- Toilets --}}
+        <column class="w-full gap-2">
+
+            <native:outlined-text-input
+                label="Toilets"
+                placeholder="e.g. 4"
+                keyboard="number"
+                native:model="toilets"
             />
 
         </column>
@@ -211,10 +226,50 @@
 
             <native:outlined-text-input
                 label="Property Size"
-                placeholder="e.g. 500 sqm"
+                placeholder="e.g. 500"
+                keyboard="number"
                 native:model="size"
             />
 
+        </column>
+
+        <column class="w-full gap-2">
+
+            <native:select
+                label="Size Unit"
+                placeholder="Select size unit"
+                :options="['sqm', 'sqft', 'plot', 'acre']"
+                native:model="size_unit"
+            />
+
+        </column>
+
+        <column class="w-full gap-2">
+            <text class="text-sm font-bold text-zinc-900 dark:text-white">Amenities</text>
+
+            <row class="flex justify-between">
+            <native:checkbox label="Parking" native:model="amenityParking" />
+            <native:checkbox label="Swimming Pool" native:model="amenitySwimmingPool" />
+            <native:checkbox label="Security" native:model="amenitySecurity" />
+            
+            </row>
+
+            <row class="flex justify-between">
+            <native:checkbox label="Generator" native:model="amenityGenerator" />
+            <native:checkbox label="Borehole" native:model="amenityBorehole" />
+            <native:checkbox label="Electricity" native:model="amenityElectricity" />
+            </row>
+
+            <row class="flex justify-between">
+            <native:checkbox label="Air Conditioning" native:model="amenityAirConditioning" />
+            <native:checkbox label="Furnished" native:model="amenityFurnished" />
+            <native:checkbox label="Garden" native:model="amenityGarden" />
+            </row>
+            <row class="flex justify-between">
+            <native:checkbox label="CCTV" native:model="amenityCctv" />
+            <native:checkbox label="Internet" native:model="amenityInternet" />
+            <native:checkbox label="Gate" native:model="amenityGate" />
+            </row>
         </column>
 
     </column>
