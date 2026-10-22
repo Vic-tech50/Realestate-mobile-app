@@ -1270,7 +1270,8 @@
                                     'pending',
                                     'available',
                                     'sold',
-                                    'rented'
+                                    'rented',
+                                    'rejected'
                                 ] as $status)
 
                                     <option

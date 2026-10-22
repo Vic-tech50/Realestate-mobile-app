@@ -783,29 +783,24 @@
 
                                 </td>
 
+                                @php
+
+                                $statusBadge = match ($property->status) {
+                                    'available', 'active' => '<span class="status-badge status-approved">Available</span>',
+                                    'pending' => '<span class="status-badge status-pending">Pending</span>',
+                                    'sold' => '<span class="status-badge status-approved">Sold</span>',
+                                    'rented' => '<span class="status-badge status-approved">Rented</span>',
+                                    'rejected' => '<span class="status-badge status-rejected">Rejected</span>',
+                                    default => '<span class="status-badge status-rejected">Unknown</span>',
+                                };
+
+                                @endphp
+
 
                                 {{-- Status --}}
                                 <td>
 
-                                    @if($property->status === 'available' || $property->status === 'active')
-
-                                        <span class="status-badge status-approved">
-                                            Approved
-                                        </span>
-
-                                    @elseif($property->status === 'pending')
-
-                                        <span class="status-badge status-pending">
-                                            Pending
-                                        </span>
-
-                                    @else
-
-                                        <span class="status-badge status-rejected">
-                                            Rejected
-                                        </span>
-
-                                    @endif
+                                    {!! $statusBadge !!}
 
                                 </td>
 

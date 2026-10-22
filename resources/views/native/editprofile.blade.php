@@ -133,11 +133,59 @@
                 label="About Me"
                 placeholder="Tell clients about yourself and your experience..."
                 value="{{ $user['bio'] ?? '' }}"
+                 native:model="bio"
             />
 
         </column>
 
     </column>
+
+
+{{-- Appearance Settings --}}
+<column class="w-full rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-4 gap-4">
+
+    <column class="gap-1">
+        <text class="text-lg font-extrabold text-zinc-900 dark:text-white">
+            Appearance
+        </text>
+
+        <text class="text-xs text-zinc-500 dark:text-zinc-400">
+            Customize how the app looks on your device.
+        </text>
+    </column>
+
+    <row class="w-full items-center gap-3">
+
+        <column class="w-11 h-11 rounded-xl bg-green-100 dark:bg-green-950 items-center justify-center">
+            <text class="text-xl text-green-900 dark:text-green-400">
+                ☾
+            </text>
+        </column>
+
+        <column class="flex-1 gap-1">
+            <text class="text-sm font-bold text-zinc-900 dark:text-white">
+                Dark Mode
+            </text>
+
+            <text class="text-xs text-zinc-500 dark:text-zinc-400">
+                Reduce brightness with a dark interface.
+            </text>
+        </column>
+
+        {{-- Connect this control to your theme-setting logic --}}
+        <pressable
+            class="rounded-xl bg-green-950 dark:bg-green-800 px-4 py-2"
+            @press="toggleDarkMode"
+        >
+            <text class="text-xs font-bold text-white">
+                Toggle
+            </text>
+        </pressable>
+
+    </row>
+
+</column>
+
 
 
     {{-- Change Password --}}
@@ -167,6 +215,7 @@
                 keyboard="text"
                 leading-icon="lock"
                 secure="true"
+                native:model="current_password"
             />
 
         </column>
@@ -181,6 +230,7 @@
                 keyboard="text"
                 leading-icon="lock"
                 secure="true"
+                native:model="password"
             />
 
         </column>
@@ -195,6 +245,7 @@
                 keyboard="text"
                 leading-icon="lock"
                 secure="true"
+                native:model="password_confirmation"
             />
 
         </column>

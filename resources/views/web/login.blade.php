@@ -585,7 +585,7 @@
 
                             </label>
 
-                            <a href="#" class="forgot-link">
+                            <a href="/forgetpassword" class="forgot-link">
                                 Forgot password?
                             </a>
 

@@ -36,45 +36,33 @@
 
                 <column class="flex-row gap-3">
 
-                    <native:image
-                        src="https://picsum.photos/seed/property-1/400/300"
-                        :width="110"
-                        :height="80"
-                        :fit="2"
-                        class="rounded-xl object-cover"
-                    />
+                    @forelse ($property->images ?? [] as $image)
+                        <native:image
+                            src="{{ $image }}"
+                            :width="110"
+                            :height="80"
+                            :fit="2"
+                            class="rounded-xl object-cover"
+                        />
+                    @empty
+                        <column class="w-72 flex justify-center h-24 rounded-xl border border-dashed border-theme-outline bg-theme-surface-variant px-4 py-3">
+                            <row class="h-full items-center gap-3">
+                                <column class="w-10 h-10 rounded-lg bg-theme-surface items-center justify-center">
+                                    <native:icon name="image" :size="20" class="text-theme-on-surface-variant" />
+                                </column>
 
-                    <native:image
-                        src="https://picsum.photos/seed/property-2/400/300"
-                        :width="110"
-                        :height="80"
-                        :fit="2"
-                        class="rounded-xl object-cover"
-                    />
+                                <column class="gap-1">
+                                    <text class="text-sm font-semibold text-theme-on-surface">
+                                        No additional photos
+                                    </text>
+                                    <text class="text-xs text-theme-on-surface-variant">
+                                        More property photos will appear here.
+                                    </text>
+                                </column>
+                            </row>
+                        </column>
 
-                    <native:image
-                        src="https://picsum.photos/seed/property-3/400/300"
-                        :width="110"
-                        :height="80"
-                        :fit="2"
-                        class="rounded-xl object-cover"
-                    />
-
-                    <native:image
-                        src="https://picsum.photos/seed/property-4/400/300"
-                        :width="110"
-                        :height="80"
-                        :fit="2"
-                        class="rounded-xl object-cover"
-                    />
-
-                    <native:image
-                        src="https://picsum.photos/seed/property-5/400/300"
-                        :width="110"
-                        :height="80"
-                        :fit="2"
-                        class="rounded-xl object-cover"
-                    />
+                    @endforelse
 
                 </column>
 
@@ -137,10 +125,11 @@
                     Property Features
                 </text>
 
-                <column class="w-full flex-row flex-wrap gap-4">
+                <column class="w-full gap-4">
 
+                    <row class="w-full justify-around">
                     {{-- Bedrooms --}}
-                    <column class="flex-row items-center gap-2">
+                    <row class="items-center gap-2">
 
                         <column class="w-10 h-10 rounded-xl bg-zinc-100 dark:bg-zinc-800 items-center justify-center">
                             <text class="text-lg">
@@ -160,11 +149,11 @@
 
                         </column>
 
-                    </column>
+                    </row>
 
 
                     {{-- Bathrooms --}}
-                    <column class="flex-row items-center gap-2">
+                    <row class=" items-center gap-2">
 
                         <column class="w-10 h-10 rounded-xl bg-zinc-100 dark:bg-zinc-800 items-center justify-center">
                             <text class="text-lg">
@@ -184,9 +173,11 @@
 
                         </column>
 
-                    </column>
+                    </row>
 
+                    </row>
 
+ <row class="w-full justify-around">
                     {{-- Parking --}}
                     <column class="flex-row items-center gap-2">
 
@@ -233,8 +224,65 @@
                         </column>
 
                     </column>
+                    </row>
 
                 </column>
+
+            </column>
+
+
+              {{-- ============================= --}}
+            {{-- Amenities --}}
+            {{-- ============================= --}}
+
+            <column class="w-full rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-4 gap-4">
+
+                <row class="w-full items-center justify-between">
+                    <text class="text-lg font-bold text-zinc-900 dark:text-white">
+                        Amenities
+                    </text>
+
+                    @if (! empty($property->amenities))
+                        <text class="text-xs font-semibold text-theme-on-surface-variant">
+                            {{ count($property->amenities) }} listed
+                        </text>
+                    @endif
+                </row>
+
+                @forelse (array_chunk($property->amenities ?? [], 2) as $amenityRow)
+                    <row class="w-full gap-2">
+                        @foreach ($amenityRow as $amenity)
+                            <column class="flex-1 min-w-0 rounded-xl bg-theme-surface-variant px-3 py-3">
+                                <row class="items-center gap-2">
+                                    <column class="w-8 h-8 shrink-0 rounded-lg bg-theme-primary/10 items-center justify-center">
+                                        <native:icon name="check" :size="16" class="text-theme-primary" />
+                                    </column>
+
+                                    <text class="flex-1 text-sm font-semibold text-theme-on-surface">
+                                        {{ $amenity }}
+                                    </text>
+                                </row>
+                            </column>
+                        @endforeach
+                    </row>
+                @empty
+                    <row class="w-full items-center gap-3 rounded-xl bg-theme-surface-variant px-4 py-4">
+                        <column class="w-10 h-10 shrink-0 rounded-lg bg-theme-surface items-center justify-center">
+                            <native:icon name="check" :size="20" class="text-theme-on-surface-variant" />
+                        </column>
+
+                        <column class="flex-1 gap-1">
+                            <text class="text-sm font-semibold text-theme-on-surface">
+                                No amenities listed
+                            </text>
+                            <text class="text-xs text-theme-on-surface-variant">
+                                Property features will appear here when available.
+                            </text>
+                        </column>
+                    </row>
+                @endforelse
+
+                
 
             </column>
 

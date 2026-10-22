@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 use Native\Mobile\Edge\NativeComponent;
+use Native\Mobile\Facades\Browser;
 
 class login extends NativeComponent
 {
@@ -44,10 +45,10 @@ class login extends NativeComponent
 
             // Ensure the URL has a scheme. If not, default to http.
             if (! preg_match('~^https?://~i', $baseUrl)) {
-                $baseUrl = 'http://'.$baseUrl;
+                $baseUrl = 'http://' . $baseUrl;
             }
 
-            $url = rtrim($baseUrl, '/').'/api/auth/login';
+            $url = rtrim($baseUrl, '/') . '/api/auth/login';
 
             Log::info('Mobile login request', [
                 'url' => $url,
@@ -123,9 +124,15 @@ class login extends NativeComponent
 
         $this->navigate('/agent');
     }
-     public function property(): void
+    public function property(): void
     {
         $this->navigate('/');
+    }
+
+    public function forgetpassword(): void
+    {
+
+        Browser::open('https://www.estatewiz.com.ng/forgetpassword');
     }
 
     public function render(): View

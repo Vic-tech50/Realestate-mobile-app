@@ -599,10 +599,15 @@
                                             <div class="agent-name">
                                                 {{ $agent->name }}
                                             </div>
-
-                                            <div class="agent-label">
-                                                Registered Agent
-                                            </div>
+                                            @if($agent->role == 'blocked')
+                                                <div class="agent-label badge bg-danger text-light fw-bold">
+                                                    {{ ucfirst($agent->role) }}
+                                                </div>
+                                            @else
+                                                <div class="agent-label">
+                                                    Registered Agent
+                                                </div>
+                                            @endif
 
                                         </div>
 
@@ -691,7 +696,7 @@
 
                                             <a
                                                 class="dropdown-item"
-                                                href="#"
+                                                href="{{ route('agents.show', $agent->id) }}"
                                             >
                                                 <i class="dw dw-eye"></i>
                                                 View Profile
@@ -700,7 +705,7 @@
 
                                             <a
                                                 class="dropdown-item"
-                                                href="#"
+                                                href="{{ route('agents.edit', $agent->id) }}"
                                             >
                                                 <i class="dw dw-edit2"></i>
                                                 Edit Agent
@@ -712,7 +717,8 @@
 
                                             <a
                                                 class="dropdown-item delete-item"
-                                                href="#"
+                                                href="{{ route('agents.destroy', $agent->id) }}"
+                                                onclick="event.preventDefault(); if(confirm('Are you sure you want to delete this agent?')) { document.getElementById('delete-agent-{{ $agent->id }}').submit(); }"
                                             >
                                                 <i class="dw dw-delete-3"></i>
                                                 Delete Agent

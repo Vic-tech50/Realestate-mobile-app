@@ -45,8 +45,8 @@
                     {{-- Password --}}
                 </text>
 
-                <pressable>
-                    <text class="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+                <pressable @press="forgetpassword">
+                    <text class="text-xs font-semibold text-zinc-500 dark:text-zinc-400">  
                         Forgot password?
                     </text>
                 </pressable>

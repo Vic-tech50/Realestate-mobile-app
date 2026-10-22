@@ -90,19 +90,22 @@
                 />
 
 
+                 <text class="absolute top-3 right-3 rounded-full {{ $property->status === 'available' ? 'bg-green-700' :  'bg-zinc-700' }} px-3 py-1 text-xs font-bold text-white capitalize">
+                            {{ $property->status ?? 'Pending' }}
+                        </text>
                 {{-- Favorite --}}
-                <pressable
+                {{-- <pressable
                     class="absolute top-3 right-3 w-10 h-10 rounded-full bg-black/40 dark:bg-black/60 items-center justify-center"
                 >
                     <text class="text-xl text-white">
                         ♡
                     </text>
-                </pressable>
+                </pressable> --}}
 
 
                 {{-- Property Type --}}
                 <text
-                    class="absolute bottom-3 left-3 rounded-full bg-black/50 dark:bg-black/70 px-3 py-1 text-xs font-semibold text-white"
+                    class="absolute bottom-3 left-3 rounded-full bg-black/50 dark:bg-black/70 px-3 capitalize py-1 text-xs font-semibold text-white"
                 >
                     {{ $property->type }}
                 </text>
@@ -180,8 +183,8 @@
                             📐
                         </text>
 
-                        <text class="text-xs text-zinc-600 dark:text-zinc-400">
-                            {{ $property->size }} m²
+                        <text class="text-xs text-zinc-600 dark:text-zinc-400 capitalize">
+                            {{ $property->size }} {{ $property->size_unit ?? 'sqft' }}
                         </text>
 
                     </row>
@@ -202,7 +205,7 @@
                             class="w-8 h-8 rounded-full bg-zinc-200 dark:bg-zinc-700 items-center justify-center"
                         >
                             <text class="text-xs font-bold text-zinc-600 dark:text-zinc-300">
-                                VO
+                                {{ Str::charAt(Str::trim($property->user->name ?? 'No Agent'), 0) ?? 'U' }}
                             </text>
                         </column>
 
@@ -210,11 +213,11 @@
                         <column>
 
                             <text class="text-xs font-semibold text-zinc-800 dark:text-zinc-200">
-                                Verified Agent
+                                {{ $property->user->name ?? 'No Agent' }}
                             </text>
 
                             <text class="text-[11px] text-zinc-400 dark:text-zinc-500">
-                                Listed 2 days ago
+                                Listed {{ $property->created_at->diffForHumans() }}
                             </text>
 
                         </column>

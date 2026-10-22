@@ -795,7 +795,7 @@
 
                     <!-- Agents -->
 
-                    <li class="{{ request()->routeIs('agents.*') ? 'active' : '' }}">
+                    <li class="{{ request()->routeIs('agents.index') ? 'active' : '' }}">
 
                         <a href="{{ route('agents.index') }}"
                             class="dropdown-toggle no-arrow">
@@ -804,6 +804,21 @@
 
                             <span class="mtext">
                                 Registered Agents
+                            </span>
+
+                        </a>
+
+                    </li>
+
+                    <li class="{{ request()->routeIs('agents.create') ? 'active' : '' }}">
+
+                        <a href="{{ route('agents.create') }}"
+                            class="dropdown-toggle no-arrow">
+
+                            <span class="micon dw dw-add-user"></span>
+
+                            <span class="mtext">
+                                Add Agent
                             </span>
 
                         </a>

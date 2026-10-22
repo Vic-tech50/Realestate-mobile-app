@@ -1,157 +1,205 @@
-<native:scroll-view class="w-full h-full bg-zinc-50 dark:bg-zinc-950 safe-area">
-    <column class="w-full gap-5 p-4 pb-8">
 
-        {{-- Profile Header Card --}}
-        <column class="w-full rounded-3xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-5 gap-4 shadow-sm">
+<native:scroll-view class="w-full h-full bg-zinc-50 dark:bg-zinc-950 safe-area">
+    <column class="w-full gap-5 p-4 pb-10">
+
+        {{-- Page Heading --}}
+        <column class="w-full gap-1">
+            <text class="text-sm font-semibold text-green-800 dark:text-green-400">
+                AGENT ACCOUNT
+            </text>
+
+            <text class="text-3xl font-black text-zinc-950 dark:text-white">
+                My Profile
+            </text>
+
+            <text class="text-sm text-zinc-500 dark:text-zinc-400">
+                Manage your personal information and account.
+            </text>
+        </column>
+
+
+        {{-- Profile Hero --}}
+        <column class="w-full rounded-3xl bg-green-950 p-5 gap-5">
 
             <row class="w-full items-center gap-4">
 
                 {{-- Avatar --}}
-                <column class="w-16 h-16 rounded-full bg-green-900 dark:bg-green-800 items-center justify-center">
-                    <text class="text-xl font-extrabold text-white">
+                <column class="w-[72px] h-[72px] rounded-2xl bg-white/15 border border-white/20 items-center justify-center">
+                    <text class="text-3xl font-black text-white">
                         {{ strtoupper(substr($user['name'] ?? 'A', 0, 1)) }}
                     </text>
                 </column>
 
-                {{-- Name --}}
+                {{-- Name and Role --}}
                 <column class="flex-1 gap-1">
-                    <text class="text-2xl font-extrabold text-zinc-900 dark:text-white">
+                    <text class="text-xl font-extrabold text-white">
                         {{ $user['name'] ?? 'Agent User' }}
                     </text>
 
-                    <text class="text-sm font-medium text-zinc-500 dark:text-zinc-400 capitalize">
+                    <text class="text-sm text-green-100 capitalize">
                         {{ $user['role'] ?? 'Property Agent' }}
                     </text>
-                </column>
 
-                {{-- Edit --}}
-                <pressable
-                    class="rounded-xl bg-green-950 dark:bg-green-800 px-3 py-2"
-                    @press="edit"
-                >
-                    <text class="text-xs font-bold text-white">
-                        Edit Your Profile
-                    </text>
-                </pressable>
+                    <row class="items-center gap-1 mt-1">
+                        <column class="w-2 h-2 rounded-full bg-green-400" />
+                        <text class="text-xs font-semibold text-green-200">
+                            Account Active
+                        </text>
+                    </row>
+                </column>
 
             </row>
 
-            {{-- Stats --}}
+            {{-- Edit Profile Button --}}
+            <pressable
+                class="w-full rounded-xl bg-white py-3 items-center justify-center"
+                @press="edit"
+            >
+                <text class="text-sm font-extrabold text-green-950">
+                    Edit Profile
+                </text>
+            </pressable>
+
+        </column>
+
+
+        {{-- Account Overview --}}
+        <column class="w-full gap-3">
+
+            <text class="text-lg font-extrabold text-zinc-900 dark:text-white">
+                Account Overview
+            </text>
+
             <row class="w-full gap-3">
 
-                <column class="flex-1 rounded-2xl bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 p-3 items-center">
-                    <text class="text-2xl font-black text-zinc-900 dark:text-white">
-                        24
+                {{-- Listings --}}
+                <column class="flex-1 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-4 gap-3">
+                    <column class="w-10 h-10 rounded-xl bg-green-100 dark:bg-green-950 items-center justify-center">
+                        <text class="text-lg font-black text-green-900 dark:text-green-400">
+                            H
+                        </text>
+                    </column>
+
+                    <text class="text-2xl font-black text-zinc-950 dark:text-white">
+                        {{ $totalListings ?? 0 }}
                     </text>
-                    <text class="text-xs text-zinc-500 dark:text-zinc-400">
+
+                    <text class="text-xs font-medium text-zinc-500 dark:text-zinc-400">
                         Listings
                     </text>
                 </column>
 
-                <column class="flex-1 rounded-2xl bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 p-3 items-center">
-                    <text class="text-2xl font-black text-zinc-900 dark:text-white">
-                        18
+                {{-- Leads --}}
+                <column class="flex-1 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-4 gap-3">
+                    <column class="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-950 items-center justify-center">
+                        <text class="text-lg font-black text-blue-800 dark:text-blue-400">
+                            L
+                        </text>
+                    </column>
+
+                    <text class="text-2xl font-black text-zinc-950 dark:text-white">
+                        {{ $totalLeads ?? 0 }}
                     </text>
-                    <text class="text-xs text-zinc-500 dark:text-zinc-400">
+
+                    <text class="text-xs font-medium text-zinc-500 dark:text-zinc-400">
                         Leads
                     </text>
                 </column>
 
-                <column class="flex-1 rounded-2xl bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 p-3 items-center">
-                    <text class="text-2xl font-black text-zinc-900 dark:text-white">
-                        4.9
+                {{-- Verification --}}
+                <column class="flex-1 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-4 gap-3">
+                    <column class="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-950 items-center justify-center">
+                        <text class="text-lg font-black text-amber-800 dark:text-amber-400">
+                            V
+                        </text>
+                    </column>
+
+                    <text class="text-sm font-black text-zinc-950 dark:text-white">
+                        {{ !empty($user['verified_at']) ? 'Verified' : 'Pending' }}
                     </text>
-                    <text class="text-xs text-zinc-500 dark:text-zinc-400">
-                        Rating
+
+                    <text class="text-xs font-medium text-zinc-500 dark:text-zinc-400">
+                        Identity
                     </text>
                 </column>
 
             </row>
-
         </column>
 
 
         {{-- Contact Information --}}
         <column class="w-full rounded-3xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-5 gap-4">
 
-            <text class="text-lg font-extrabold text-zinc-900 dark:text-white">
-                Contact Information
-            </text>
+            <column class="gap-1">
+                <text class="text-lg font-extrabold text-zinc-950 dark:text-white">
+                    Contact Information
+                </text>
 
-            <column class="w-full gap-3">
-
-                {{-- Email --}}
-                <row class="w-full items-center gap-3 rounded-2xl bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 p-3">
-
-                    <column class="w-10 h-10 rounded-xl bg-green-900 dark:bg-green-800 items-center justify-center">
-                        <text class="text-sm font-bold text-white">
-                            @
-                        </text>
-                    </column>
-
-                    <column class="flex-1">
-
-                        <text class="text-xs uppercase text-zinc-500 dark:text-zinc-400">
-                            Email
-                        </text>
-
-                        <text class="text-sm font-semibold text-zinc-900 dark:text-white capitalize">
-                            {{ $user['email'] ?? 'agent@example.com' }}
-                        </text>
-
-                    </column>
-
-                </row>
-
-
-                {{-- Phone --}}
-                <row class="w-full items-center gap-3 rounded-2xl bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 p-3">
-
-                    <column class="w-10 h-10 rounded-xl bg-green-900 dark:bg-green-800 items-center justify-center">
-                        <text class="text-sm font-bold text-white">
-                            ☎
-                        </text>
-                    </column>
-
-                    <column class="flex-1">
-
-                        <text class="text-xs uppercase text-zinc-500 dark:text-zinc-400">
-                            Phone
-                        </text>
-
-                        <text class="text-sm font-semibold text-zinc-900 dark:text-white">
-                            {{ $user['phone'] ?? '+234 800 000 0000' }}
-                        </text>
-
-                    </column>
-
-                </row>
-
-
-                {{-- Office --}}
-                <row class="w-full items-center gap-3 rounded-2xl bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 p-3">
-
-                    <column class="w-10 h-10 rounded-xl bg-green-900 dark:bg-green-800 items-center justify-center">
-                        <text class="text-sm font-bold text-white">
-                            ⌂
-                        </text>
-                    </column>
-
-                    <column class="flex-1">
-
-                        <text class="text-xs uppercase text-zinc-500 dark:text-zinc-400">
-                            Office
-                        </text>
-
-                        <text class="text-sm font-semibold text-zinc-900 dark:text-white">
-                            Lekki Phase 1, Lagos
-                        </text>
-
-                    </column>
-
-                </row>
-
+                <text class="text-sm text-zinc-500 dark:text-zinc-400">
+                    Your contact details for clients.
+                </text>
             </column>
+
+            {{-- Email --}}
+            <row class="w-full items-center gap-3">
+                <column class="w-11 h-11 rounded-xl bg-green-100 dark:bg-green-950 items-center justify-center">
+                    <text class="text-lg font-bold text-green-900 dark:text-green-400">
+                        @
+                    </text>
+                </column>
+
+                <column class="flex-1 gap-1">
+                    <text class="text-xs font-medium text-zinc-500 dark:text-zinc-400">
+                        EMAIL ADDRESS
+                    </text>
+
+                    <text class="text-sm font-semibold text-zinc-900 dark:text-white">
+                        {{ $user['email'] ?? 'No email added' }}
+                    </text>
+                </column>
+            </row>
+
+            <native:divider />
+
+            {{-- Phone --}}
+            <row class="w-full items-center gap-3">
+                <column class="w-11 h-11 rounded-xl bg-green-100 dark:bg-green-950 items-center justify-center">
+                    <text class="text-lg font-bold text-green-900 dark:text-green-400">
+                        ☎
+                    </text>
+                </column>
+
+                <column class="flex-1 gap-1">
+                    <text class="text-xs font-medium text-zinc-500 dark:text-zinc-400">
+                        PHONE NUMBER
+                    </text>
+
+                    <text class="text-sm font-semibold text-zinc-900 dark:text-white">
+                        {{ $user['phone'] ?? 'No phone number added' }}
+                    </text>
+                </column>
+            </row>
+
+            <native:divider />
+
+            {{-- Office Location --}}
+            <row class="w-full items-center gap-3">
+                <column class="w-11 h-11 rounded-xl bg-green-100 dark:bg-green-950 items-center justify-center">
+                    <text class="text-lg font-bold text-green-900 dark:text-green-400">
+                        ⌂
+                    </text>
+                </column>
+
+                <column class="flex-1 gap-1">
+                    <text class="text-xs font-medium text-zinc-500 dark:text-zinc-400">
+                        OFFICE LOCATION
+                    </text>
+
+                    <text class="text-sm font-semibold text-zinc-900 dark:text-white">
+                        {{ $user['office_address'] ?? 'No office address added' }}
+                    </text>
+                </column>
+            </row>
 
         </column>
 
@@ -159,91 +207,126 @@
         {{-- Account Details --}}
         <column class="w-full rounded-3xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-5 gap-4">
 
-            <text class="text-lg font-extrabold text-zinc-900 dark:text-white">
+            <text class="text-lg font-extrabold text-zinc-950 dark:text-white">
                 Account Details
             </text>
 
-
             {{-- Membership --}}
-            <row class="w-full items-center justify-between py-2 border-b border-zinc-200 dark:border-zinc-800">
+            <row class="w-full items-center gap-3">
+                <column class="w-10 h-10 rounded-xl bg-zinc-100 dark:bg-zinc-800 items-center justify-center">
+                    <text class="text-base font-black text-zinc-700 dark:text-zinc-300">
+                        M
+                    </text>
+                </column>
 
-                <text class="text-sm text-zinc-500 dark:text-zinc-400">
-                    Membership
-                </text>
-
-                <text class="text-sm font-bold text-zinc-900 dark:text-white">
-                    Premium Agent
-                </text>
-
-            </row>
-
-            <native:divider />
-
-
-            {{-- Verification --}}
-            <row class="w-full items-center justify-between py-2 border-b border-zinc-200 dark:border-zinc-800">
-
-                <text class="text-sm text-zinc-500 dark:text-zinc-400">
-                    Verification
-                </text>
-
-                <pressable 
-                @navigate.slideFromBottom='/verifyagent'
-                >
-
-                    <text class="text-sm font-bold text-red-600 dark:text-red-400 underline">
-                        Not Verified
+                <column class="flex-1 gap-1">
+                    <text class="text-xs text-zinc-500 dark:text-zinc-400">
+                        MEMBERSHIP
                     </text>
 
-                </pressable>
-
+                    <text class="text-sm font-bold text-zinc-900 dark:text-white">
+                        {{ $user['membership'] ?? 'Standard Agent' }}
+                    </text>
+                </column>
             </row>
 
             <native:divider />
 
+            {{-- Verification --}}
+            <pressable
+                class="w-full"
+                @navigate.slideFromBottom='/verifyagent'
+            >
+                <row class="w-full items-center gap-3">
+                    <column class="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-950 items-center justify-center">
+                        <text class="text-base font-black text-amber-800 dark:text-amber-400">
+                            !
+                        </text>
+                    </column>
 
-            {{-- Status --}}
-            <row class="w-full items-center justify-between py-2">
+                    <column class="flex-1 gap-1">
+                        <text class="text-xs text-zinc-500 dark:text-zinc-400">
+                            IDENTITY VERIFICATION
+                        </text>
 
-                <text class="text-sm text-zinc-500 dark:text-zinc-400">
-                    Status
-                </text>
+                        <text class="text-sm font-bold text-zinc-900 dark:text-white">
+                            {{ !empty($user['verified_at']) ? 'Your account is verified' : 'Complete verification' }}
+                        </text>
+                    </column>
 
-                <text class="text-sm font-bold text-green-900 dark:text-green-400">
-                    Active
-                </text>
+                    <text class="text-lg font-bold text-zinc-400">
+                        ›
+                    </text>
+                </row>
+            </pressable>
 
+            <native:divider />
+
+            {{-- Account Status --}}
+            <row class="w-full items-center gap-3">
+                <column class="w-10 h-10 rounded-xl bg-green-100 dark:bg-green-950 items-center justify-center">
+                    <text class="text-base font-black text-green-900 dark:text-green-400">
+                        ✓
+                    </text>
+                </column>
+
+                <column class="flex-1 gap-1">
+                    <text class="text-xs text-zinc-500 dark:text-zinc-400">
+                        ACCOUNT STATUS
+                    </text>
+
+                    <text class="text-sm font-bold text-green-800 dark:text-green-400">
+                        Active
+                    </text>
+                </column>
             </row>
 
         </column>
 
 
-        {{-- Action Buttons --}}
-        <column class="w-full gap-3">
+        {{-- Dashboard Action --}}
+        <pressable
+            class="w-full rounded-2xl bg-green-950 dark:bg-green-800 p-4"
+            @press="navigate('agentdashboard')"
+        >
+            <row class="w-full items-center gap-3">
+                <column class="w-11 h-11 rounded-xl bg-white/15 items-center justify-center">
+                    <text class="text-xl font-black text-white">
+                        ↗
+                    </text>
+                </column>
 
-            {{-- Dashboard --}}
-            <native:button
-                @press="navigate('/agentdashboard')"
-                class="w-full rounded-2xl text-green-900 dark:text-green-500 py-4 items-center justify-center"
-                size="lg"
-                variant="ghost"
-            >
-                View Dashboard
-            </native:button>
+                <column class="flex-1 gap-1">
+                    <text class="text-base font-extrabold text-white">
+                        Agent Dashboard
+                    </text>
+
+                    <text class="text-xs text-green-100">
+                        Manage your properties and performance
+                    </text>
+                </column>
+
+                <text class="text-2xl font-bold text-white">
+                    ›
+                </text>
+            </row>
+        </pressable>
 
 
-            {{-- Logout --}}
-            <native:button
-                @press="logout"
-                size="lg"
-                variant="destructive"
-                icon="exit"
-                class="w-full h-[50px] rounded-0 mb-4 text-white"
-            >
-                Logout
-            </native:button>
+        {{-- Logout --}}
+        <native:button
+            @press="logout"
+            size="lg"
+            variant="destructive"
+            icon="exit"
+            class="w-full h-[52px] rounded-2xl mb-3 text-white"
+        >
+            Log Out
+        </native:button>
 
-        </column>
+        <text class="w-full text-center text-xs text-zinc-400">
+            Keep your profile details up to date.
+        </text>
 
     </column>
-</native:scroll-view>
+</native:scroll-view> 

@@ -142,6 +142,7 @@ class editprofile extends NativeComponent
         }
     }
 
+    // ******************************************************* */  //
     public function selectAvatar(): void
     {
         Camera::pickImages('avatar', false);
@@ -170,6 +171,8 @@ class editprofile extends NativeComponent
         }
     }
 
+    // ******************************************************* */  //
+
     public function render(): View
     {
         return view('native.editprofile', [
@@ -178,6 +181,7 @@ class editprofile extends NativeComponent
         ]);
     }
 
+    // ******************************************************* */  //
     private function resolveAvatarPath(mixed $file): ?string
     {
         if (is_array($file)) {
@@ -215,6 +219,7 @@ class editprofile extends NativeComponent
             : null;
     }
 
+    // ******************************************************* */  //
     private function extractAvatarReference(mixed $file): ?string
     {
         if (is_array($file)) {

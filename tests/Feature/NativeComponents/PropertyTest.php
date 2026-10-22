@@ -3,6 +3,7 @@
 use App\Models\Property;
 use App\Models\User;
 use App\NativeComponents\addproperty as AddPropertyScreen;
+use App\NativeComponents\editproperty as EditPropertyScreen;
 use App\NativeComponents\property as PropertyScreen;
 use Native\Mobile\Testing\Native;
 
@@ -50,7 +51,7 @@ it('saves native property details with normalized listing and payment periods', 
         'verification_status' => 'verified',
     ]);
 
-    Native::fakeBridge()->respondTo('SecureStorage.Get', fn(array $params) => [
+    Native::fakeBridge()->respondTo('SecureStorage.Get', fn (array $params) => [
         'value' => $params['key'] === 'auth_user'
             ? json_encode(['id' => $agent->id])
             : '',
@@ -98,7 +99,7 @@ it('rejects an incomplete native property form without saving it', function () {
         'verification_status' => 'verified',
     ]);
 
-    Native::fakeBridge()->respondTo('SecureStorage.Get', fn(array $params) => [
+    Native::fakeBridge()->respondTo('SecureStorage.Get', fn (array $params) => [
         'value' => $params['key'] === 'auth_user'
             ? json_encode(['id' => $agent->id])
             : '',
@@ -111,4 +112,58 @@ it('rejects an incomplete native property form without saving it', function () {
 
     expect($screen->get('isSaving'))->toBeFalse()
         ->and(Property::where('title', 'Incomplete Home')->exists())->toBeFalse();
+});
+
+it('loads and saves the additional property fields when editing', function () {
+    $agent = User::factory()->create();
+
+    $property = Property::create([
+        'agent_id' => $agent->id,
+        'title' => 'Updated City Home',
+        'type' => 'House',
+        'listing_type' => 'sale',
+        'address' => '10 Palm Avenue',
+        'city' => 'Uyo',
+        'state' => 'Akwa Ibom',
+        'country' => 'Nigeria',
+        'landmark' => 'Near the stadium',
+        'price' => 25000000,
+        'price_period' => 'monthly',
+        'property_id' => 'PV-EDIT-10001',
+        'bedrooms' => 4,
+        'bathrooms' => 3,
+        'toilets' => 4,
+        'garage' => 2,
+        'size' => 500,
+        'size_unit' => 'sqm',
+        'description' => 'A spacious home close to schools and shopping.',
+        'amenities' => ['Security', 'Generator'],
+    ]);
+
+    $screen = Native::test(EditPropertyScreen::class, ['id' => $property->id])
+        ->assertSet('country', 'Nigeria')
+        ->assertSet('landmark', 'Near the stadium')
+        ->assertSet('toilets', '4')
+        ->assertSet('size_unit', 'sqm')
+        ->assertSet('amenitySecurity', true)
+        ->assertSet('amenityGenerator', true)
+        ->set('country', 'Ghana')
+        ->set('landmark', 'Opposite the park')
+        ->set('toilets', '5')
+        ->set('size_unit', 'sqft')
+        ->set('amenityGenerator', false)
+        ->set('amenityParking', true)
+        ->call('save')
+        ->assertNavigatedTo('/agentdashboard');
+
+    $property->refresh();
+
+    expect($property->country)->toBe('Ghana')
+        ->and($property->landmark)->toBe('Opposite the park')
+        ->and($property->toilets)->toBe(5)
+        ->and($property->size_unit)->toBe('sqft')
+        ->and($property->amenities)->toBe(['Parking', 'Security']);
+
+    expect($property->listing_type)->toBe('sale')
+        ->and($property->price_period)->toBe('monthly');
 });

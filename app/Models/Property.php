@@ -41,6 +41,7 @@ class Property extends Model
         'toilets',
         'size_unit',
         'amenities',
+        'views_count',
     ];
 
     public function user()

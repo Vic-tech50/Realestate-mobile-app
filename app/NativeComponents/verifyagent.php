@@ -5,10 +5,13 @@ namespace App\NativeComponents;
 use App\Services\AuthStorage;
 use Illuminate\View\View;
 use Native\Mobile\Edge\NativeComponent;
+use phpDocumentor\Reflection\Types\Boolean;
 
 class verifyagent extends NativeComponent
 {
     public array $user = [];
+
+    public string $verified = 'false';
 
     public function mount(): void
     {

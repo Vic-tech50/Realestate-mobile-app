@@ -187,7 +187,7 @@ class uploaddocument extends NativeComponent
 
             $extension = $extension ?: 'jpg';
 
-            $filename = bin2hex(random_bytes(32)).'.'.$extension;
+            $filename = bin2hex(random_bytes(32)) . '.' . $extension;
 
             /*
             |--------------------------------------------------------------------------
@@ -195,7 +195,7 @@ class uploaddocument extends NativeComponent
             |--------------------------------------------------------------------------
             */
 
-            $directory = 'verification-documents/'.$user->id;
+            $directory = 'verification-documents/' . $user->id;
 
             $storedPath = Storage::disk('local')->putFileAs(
                 $directory,
@@ -291,24 +291,43 @@ class uploaddocument extends NativeComponent
             return null;
         }
 
-        $path = trim($file);
+        $path = trim($file, " \t\n\r\0\x0B\"'");
 
-        if (str_starts_with($path, 'file://')) {
-            $path = rawurldecode((string) parse_url($path, PHP_URL_PATH));
-        }
+        // Native camera APIs may return a file URL rather than a filesystem path.
+        // Decode the URL path (including spaces) before checking it on disk.
+        if (str_starts_with(strtolower($path), 'file://')) {
+            $urlPath = parse_url($path, PHP_URL_PATH);
 
-        if (str_starts_with($path, 'content://') || str_starts_with($path, 'http')) {
+            if (! is_string($urlPath) || $urlPath === '') {
+                return null;
+            }
+
+            $path = rawurldecode($urlPath);
+
+            // Windows file URLs commonly look like /C:/path.
+            if (PHP_OS_FAMILY === 'Windows' && preg_match('/^\/[A-Za-z]:\\\\/', $path)) {
+                $path = substr($path, 1);
+            }
+        } elseif (str_starts_with(strtolower($path), 'content://') || preg_match('/^https?:\\/\\//i', $path)) {
             return null;
         }
 
-        if (is_file($path) && is_readable($path)) {
-            return $path;
+        // Normalize absolute native paths; this also removes harmless ./ segments.
+        $resolvedPath = realpath($path);
+        if ($resolvedPath !== false && is_file($resolvedPath) && is_readable($resolvedPath)) {
+            return $resolvedPath;
+        }
+
+        // Gallery references are normally relative to Laravel's local disk.
+        if (str_starts_with($path, DIRECTORY_SEPARATOR) || preg_match('/^[A-Za-z]:[\\\\\/]/', $path)) {
+            return null;
         }
 
         $storagePath = Storage::disk('local')->path($path);
+        $resolvedStoragePath = realpath($storagePath);
 
-        return is_file($storagePath) && is_readable($storagePath)
-            ? $storagePath
+        return $resolvedStoragePath !== false && is_file($resolvedStoragePath) && is_readable($resolvedStoragePath)
+            ? $resolvedStoragePath
             : null;
     }
 }

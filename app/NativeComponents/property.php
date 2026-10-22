@@ -10,7 +10,6 @@ use Native\Mobile\Edge\Transition;
 
 class property extends NativeComponent
 {
-
     /** @var Collection<int, ModelProp> */
     public Collection $properties;
 
@@ -21,12 +20,13 @@ class property extends NativeComponent
 
     public function loadLatest(): void
     {
-        $this->properties = ModelProp::latest()->get();
+        $this->properties = ModelProp::where('status', 'available')->latest()->with('user')->get();
     }
+
     public function agent(): void
     {
 
-        $this->navigate('/login');
+        $this->navigate('/welcome')->transition(Transition::SlideFromBottom);
     }
 
     public function askai(): void
@@ -43,6 +43,7 @@ class property extends NativeComponent
 
     public function render(): View
     {
+
         return view('native.property', ['properties' => $this->properties]);
     }
 }
