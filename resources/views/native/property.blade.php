@@ -29,32 +29,15 @@
 
         {{-- Search / Filter --}}
         <row class="w-full items-center gap-3">
-
-            <pressable
-                class="flex-1 rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-4 py-3"
-            >
-                <row class="items-center gap-2">
-
-                    <text class="text-base">
-                        🔍
-                    </text>
-
-                    <text class="text-sm text-zinc-400 dark:text-zinc-500">
-                        Search properties...
-                    </text>
-
-                </row>
-            </pressable>
-
-
-            <pressable
-                class="rounded-2xl bg-green-900 dark:bg-green-800 px-4 py-3"
-            >
-                <text class="text-white text-sm font-bold">
-                    Filter
-                </text>
-            </pressable>
-
+            <row class="flex-1 items-center gap-2">
+                <native:outlined-text-input
+                    placeholder="Search by title, city, agent..."
+                    native:model.live="search"
+                    keyboard="text"
+                    class="w-full"
+                    leading-icon="search"
+                />
+            </row>
         </row>
 
 
@@ -72,6 +55,16 @@
         </row>
 
         {{-- Property Cards --}}
+        @if ($properties->isEmpty())
+            <column class="w-full items-center justify-center rounded-3xl border border-dashed border-zinc-300 bg-white px-5 py-8 dark:border-zinc-700 dark:bg-zinc-900">
+                <text class="text-lg font-bold text-zinc-900 dark:text-white">
+                    No properties found
+                </text>
+                <text class="text-sm text-zinc-500 dark:text-zinc-400">
+                    Try another title, city, or agent name.
+                </text>
+            </column>
+        @else
         @foreach($properties as $property)
 
         <pressable
@@ -242,6 +235,7 @@
         </pressable>
 
         @endforeach
+        @endif
     </column>
 
     <native:fab icon="chat" @tap="askai" label="AI Bot" size="large" bottom-offset="30"  edge-offset="30" />

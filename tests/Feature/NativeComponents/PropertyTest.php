@@ -45,13 +45,62 @@ it('shows properties added after the screen loads when pulled to refresh', funct
         ->assertSee('New home');
 });
 
+it('filters properties by title, location, and agent details', function () {
+    $matchingAgent = User::factory()->create([
+        'name' => 'Ada Okafor',
+    ]);
+
+    $otherAgent = User::factory()->create([
+        'name' => 'John Smith',
+    ]);
+
+    Property::create([
+        'agent_id' => $matchingAgent->id,
+        'title' => 'Luxury Duplex',
+        'type' => 'Duplex',
+        'listing_type' => 'For Sale',
+        'address' => '20 Lekki Road',
+        'city' => 'Lekki',
+        'state' => 'Lagos',
+        'price' => 25000000,
+        'price_period' => 'total',
+        'property_id' => 'PV-SEARCH-001',
+        'status' => 'available',
+        'size' => 350,
+        'size_unit' => 'sqm',
+    ]);
+
+    Property::create([
+        'agent_id' => $otherAgent->id,
+        'title' => 'Small Flat',
+        'type' => 'Apartment',
+        'listing_type' => 'For Rent',
+        'address' => '14 Surulere Street',
+        'city' => 'Surulere',
+        'state' => 'Lagos',
+        'price' => 800000,
+        'price_period' => 'monthly',
+        'property_id' => 'PV-SEARCH-002',
+        'status' => 'available',
+        'size' => 120,
+        'size_unit' => 'sqm',
+    ]);
+
+    $screen = Native::test(PropertyScreen::class)
+        ->set('search', 'ada')
+        ->call('search');
+
+    $screen->assertSee('Luxury Duplex')
+        ->assertDontSee('Small Flat');
+});
+
 it('saves native property details with normalized listing and payment periods', function () {
     $agent = User::factory()->create([
         'role' => 'agent',
         'verification_status' => 'verified',
     ]);
 
-    Native::fakeBridge()->respondTo('SecureStorage.Get', fn (array $params) => [
+    Native::fakeBridge()->respondTo('SecureStorage.Get', fn(array $params) => [
         'value' => $params['key'] === 'auth_user'
             ? json_encode(['id' => $agent->id])
             : '',
@@ -99,7 +148,7 @@ it('rejects an incomplete native property form without saving it', function () {
         'verification_status' => 'verified',
     ]);
 
-    Native::fakeBridge()->respondTo('SecureStorage.Get', fn (array $params) => [
+    Native::fakeBridge()->respondTo('SecureStorage.Get', fn(array $params) => [
         'value' => $params['key'] === 'auth_user'
             ? json_encode(['id' => $agent->id])
             : '',

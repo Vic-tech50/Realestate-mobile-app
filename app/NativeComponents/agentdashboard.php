@@ -13,6 +13,8 @@ use Native\Mobile\Facades\Dialog;
 
 class agentdashboard extends NativeComponent
 {
+
+
     public function addProperty(): void
     {
         $this->navigate('/addproperty')->transition(Transition::SlideFromBottom);
